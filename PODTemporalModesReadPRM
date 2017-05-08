@@ -1,0 +1,67 @@
+for i=1:1:9;
+s = num2str(i);
+filename = genvarname(['B0000' s]);
+filename = [filename '.prm']
+aa = importfile3(filename,2, inf);
+POD(:,i) = aa
+end
+
+
+
+for i=10:1:99;
+s = num2str(i);
+filename = genvarname(['B000' s]);
+filename = [filename '.prm'];
+aa = importfile3(filename,2, inf);
+POD(:,i) = aa;
+end
+
+
+for i=100:1:999;
+s = num2str(i);
+filename = genvarname(['B00' s]);
+filename = [filename '.prm'];
+aa = importfile3(filename,2, inf);
+POD(:,i) = aa;
+end
+
+for i=1000:1:1024;
+s = num2str(i);
+filename = genvarname(['B0' s]);
+filename = [filename '.prm'];
+aa = importfile3(filename,2, inf);
+POD(:,i) = aa;
+end
+
+for i=1:1:9
+FPOD = 250;            % Sampling frequency
+T = 1/FPOD;             % Sampling period
+L = 1024;             % Length of signal
+t = (0:L-1)*T;        % Time vector
+%%Compute the Fourier transform of the signal.
+Y_1(:,i) = fft(POD(:,i));
+%%Compute the two-sided spectrum P2. Then compute the single-sided spectrum P1 based on P2 and the even-valued signal length L.
+P2(:,i) = abs(Y_1(:,i)/L);
+P1(:,i) = P2(1:L/2+1,i);
+P1(2:end-1) = 2*P1(2:end-1);
+%%Define the frequency domain f and plot the single-sided amplitude spectrum P1. The amplitudes are not exactly at 0.7 and 1, as expected, because of the added noise. On average, longer signals produce better frequency approximations.
+
+f = FPOD*(0:(L/2))/L;
+end 
+for i=1:1:9
+    figure(i)
+    plot(f(1:200),P1(1:200,i))
+    title('Single-Sided Amplitude Spectrum of X(t)')
+    xlabel('f (Hz)')
+    ylabel('|P1(f)|')
+end
+wavenum = (1:1:L);
+
+figure(5)
+plot(wavenum(1:250),POD_9_11_butter(1:250,2),wavenum(1:250),POD_9_11_butter(1:250,3),wavenum(1:250),POD_9_11_butter(1:250,1),wavenum(1:250),POD_9_11_butter(1:250,4));
+legend('Mode 2', 'Mode 3','Mode 1','Mode4') 
+
+figure(11) 
+
+plot(wavenum, POD_5_15(:,2), wavenum,POD_5_15(:,3))
+
