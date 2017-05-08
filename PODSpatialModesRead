@@ -1,0 +1,211 @@
+%% ImportPIV Function Required
+
+filename3 = 'B00001.txt'
+[X,Y,U,V,W] = importfile2(filename3,2, 10356);
+Ysorted = unique(Y);
+Xsorted = unique(X);
+Xsorted = sort(Xsorted);
+miny= min(Y);
+maxy= max(Y);
+stepy = Ysorted(2)-Ysorted(1);
+minx= min(X);
+maxx= max(X);
+stepx = X(2)-X(1);
+[y, x]  = meshgrid(miny:stepy:maxy, minx:stepx:maxx);    %% Creating cartesian grid
+% pt1_U;
+% pt1_V; 
+i=1;
+% corx_out = zeros(sqsizex*4+1,sqsizez*4+1);
+% cory = zeros(sqsizex*4+1,sqsizez*4+1);
+% corz_out = zeros(sqsizex*4+1,sqsizez*4+1);
+% [xcoord,zcoord] = meshgrid(0.0001:0.0001:((sqsizez*4+1)*step),step:step:((sqsizex*4+1)*step));
+% corx1 = zeros(sqsizex1*4+1,sqsizez1*4+1);
+% cory1 = zeros(sqsizex1*4+1,sqsizez1*4+1);
+% corz1 = zeros(sqsizex1*4+1,sqsizez1*4+1);
+% [xcoord1,zcoord1] = meshgrid(0.0001:0.0001:((sqsizez1*4+1)*step),step:step:((sqsizex1*4+1)*step));
+% corx2 = zeros(sqsizex2*4+1,sqsizez2*4+1);
+% cory2 = zeros(sqsizex2*4+1,sqsizez2*4+1);
+% corz2 = zeros(sqsizex2*4+1,sqsizez2*4+1);
+for i=1:1:9;
+s = num2str(i);
+filename3 = genvarname(['B0000' s]);
+filename3 = [filename3 '.txt']
+[X,Y,U,V,W] = importPIV(filename3,2, inf);
+mag = sqrt(U.^2+V.^2+W.^2);   %%Calculate velocity magnitude 
+uvelgrid_sp(:,:,i) = griddata(X, Y, U, y, x);
+vvelgrid_sp(:,:,i) = griddata(X, Y, V, y, x); 
+wvelgrid_sp(:,:,i) = griddata(X, Y, W, y, x);                     %%Interpolate data to the grid
+magvelgrid(:,:,i) = griddata(X, Y, mag, y, x);
+datestr(now)
+%  xVelCorMat = xprimegrid(sqlim1x:sqlim2x, sqlim1z:sqlim2z);     
+%       yVelCorMat = yprimegrid(sqlim1x:sqlim2x, sqlim1z:sqlim2z);   
+%         zVelCorMat = zprimegrid(sqlim1x:sqlim2x, sqlim1z:sqlim2z);    
+%     corxdum = xcorr2(xVelCorMat, xVelCorMat);%*VxAux(yref,xref)^2;
+%         corx = corx + corxdum ;
+%     corydum = xcorr2(yVelCorMat, yVelCorMat);%*VxAux(yref,xref)^2;
+%         cory = cory + corydum ;
+%     corzdum = xcorr2(zVelCorMat, zVelCorMat);%*VxAux(yref,xref)^2;
+%         corz = corz + corzdum ;
+%       %Second Point
+%     xVelCorMat1 = xprimegrid(sqlim1x1:sqlim2x1, sqlim1z1:sqlim2z1);     
+%       yVelCorMat1 = yprimegrid(sqlim1x1:sqlim2x1, sqlim1z1:sqlim2z1);   
+%         zVelCorMat1 = zprimegrid(sqlim1x1:sqlim2x1, sqlim1z1:sqlim2z1);    
+%     corxdum1 = xcorr2(xVelCorMat1, xVelCorMat1);%*VxAux(yref,xref)^2;
+%         corx1 = corx1 + corxdum1 ;
+%     corydum1 = xcorr2(yVelCorMat1, yVelCorMat1);%*VxAux(yref,xref)^2;
+%         cory1 = cory1 + corydum1 ;
+%     corzdum1 = xcorr2(zVelCorMat1, zVelCorMat1);%*VxAux(yref,xref)^2;
+%         corz1 = corz1 + corzdum1 ;
+%       %Third Point  
+%         xVelCorMat2 = xprimegrid(sqlim1x2:sqlim2x2, sqlim1z2:sqlim2z2);     
+%       yVelCorMat2 = yprimegrid(sqlim1x2:sqlim2x2, sqlim1z2:sqlim2z2);   
+%         zVelCorMat2 = zprimegrid(sqlim1x2:sqlim2x2, sqlim1z2:sqlim2z2);    
+%     corxdum2 = xcorr2(xVelCorMat2, xVelCorMat2);%*VxAux(yref,xref)^2;
+%         corx2 = corx2 + corxdum2 ;
+%     corydum2 = xcorr2(yVelCorMat2, yVelCorMat2);%*VxAux(yref,xref)^2;
+%         cory2 = cory2 + corydum2 ;
+%     corzdum2 = xcorr2(zVelCorMat2, zVelCorMat2);%*VxAux(yref,xref)^2;
+%         corz2 = corz2 + corzdum2 ;    
+end
+
+i=10;
+for i=10:1:99;
+s = num2str(i);
+filename3 = genvarname(['B000' s]);
+filename3 = [filename3 '.txt']
+[X,Y,U,V,W] = importPIV(filename3,2, inf);
+mag = sqrt(U.^2+V.^2+W.^2);   %%Calculate velocity magnitude 
+uvelgrid_sp(:,:,i) = griddata(X, Y, U, y, x);
+vvelgrid_sp(:,:,i) = griddata(X, Y, V, y, x); 
+wvelgrid_sp(:,:,i) = griddata(X, Y, W, y, x);                     %%Interpolate data to the grid
+magvelgrid(:,:,i) = griddata(X, Y, mag, y, x);
+% pt1_U(i) = U;
+% pt1_V(i) = V;
+% pt1_W(i) = W;
+% pt1_mag(i) = mag;
+% [X,Y,U,V,W] = importPIV(filename,1563, 1563);
+% mag = sqrt(U^2+V^2+W^2);   %%Calculate velocity magnitude 
+% pt2(i) = mag;
+% [X,Y,U,V,W] = importPIV(filename,6174, 6174);
+% mag = sqrt(U^2+V^2+W^2);   %%Calculate velocity magnitude 
+% pt2_U(i) = U;
+% pt2_V(i) = V;
+% pt2_W(i) = W;
+% pt2_mag(i) = mag;
+datestr(now)
+%     xVelCorMat = xprimegrid(sqlim1x:sqlim2x, sqlim1z:sqlim2z);     
+%       yVelCorMat = yprimegrid(sqlim1x:sqlim2x, sqlim1z:sqlim2z);   
+%         zVelCorMat = zprimegrid(sqlim1x:sqlim2x, sqlim1z:sqlim2z);    
+%     corxdum = xcorr2(xVelCorMat, xVelCorMat);%*VxAux(yref,xref)^2;
+%         corx = corx + corxdum ;
+%     corydum = xcorr2(yVelCorMat, yVelCorMat);%*VxAux(yref,xref)^2;
+%         cory = cory + corydum ;
+%     corzdum = xcorr2(zVelCorMat, zVelCorMat);%*VxAux(yref,xref)^2;
+%         corz = corz + corzdum ;
+%       %Second Point
+%     xVelCorMat1 = xprimegrid(sqlim1x1:sqlim2x1, sqlim1z1:sqlim2z1);     
+%       yVelCorMat1 = yprimegrid(sqlim1x1:sqlim2x1, sqlim1z1:sqlim2z1);   
+%         zVelCorMat1 = zprimegrid(sqlim1x1:sqlim2x1, sqlim1z1:sqlim2z1);    
+%     corxdum1 = xcorr2(xVelCorMat1, xVelCorMat1);%*VxAux(yref,xref)^2;
+%         corx1 = corx1 + corxdum1 ;
+%     corydum1 = xcorr2(yVelCorMat1, yVelCorMat1);%*VxAux(yref,xref)^2;
+%         cory1 = cory1 + corydum1 ;
+%     corzdum1 = xcorr2(zVelCorMat1, zVelCorMat1);%*VxAux(yref,xref)^2;
+%         corz1 = corz1 + corzdum1 ;
+%       %Third Point  
+%         xVelCorMat2 = xprimegrid(sqlim1x2:sqlim2x2, sqlim1z2:sqlim2z2);     
+%       yVelCorMat2 = yprimegrid(sqlim1x2:sqlim2x2, sqlim1z2:sqlim2z2);   
+%         zVelCorMat2 = zprimegrid(sqlim1x2:sqlim2x2, sqlim1z2:sqlim2z2);    
+%     corxdum2 = xcorr2(xVelCorMat2, xVelCorMat2);%*VxAux(yref,xref)^2;
+%         corx2 = corx2 + corxdum2 ;
+%     corydum2 = xcorr2(yVelCorMat2, yVelCorMat2);%*VxAux(yref,xref)^2;
+%         cory2 = cory2 + corydum2 ;
+%     corzdum2 = xcorr2(zVelCorMat2, zVelCorMat2);%*VxAux(yref,xref)^2;
+%         corz2 = corz2 + corzdum2 ;      
+end
+
+i=100;
+for i=100:1:999;
+s = num2str(i);
+filename3 = genvarname(['B00' s]);
+filename3 = [filename3 '.txt']
+[X,Y,U,V,W] = importPIV(filename3,2, inf);
+mag = sqrt(U.^2+V.^2+W.^2);   %%Calculate velocity magnitude 
+uvelgrid_sp(:,:,i) = griddata(X, Y, U, y, x);
+vvelgrid_sp(:,:,i) = griddata(X, Y, V, y, x); 
+wvelgrid_sp(:,:,i) = griddata(X, Y, W, y, x);                     %%Interpolate data to the grid
+magvelgrid(:,:,i) = griddata(X, Y, mag, y, x);
+% pt1_U(i) = U;
+% pt1_V(i) = V;
+% pt1_W(i) = W;
+% pt1_mag(i) = mag;
+% % [X,Y,U,V,W] = importPIV(filename,1563, 1563);
+% % mag = sqrt(U^2+V^2+W^2);   %%Calculate velocity magnitude 
+% % pt2(i) = mag;
+% [X,Y,U,V,W] = importPIV(filename,6174,6174);
+% mag = sqrt(U^2+V^2+W^2);   %%Calculate velocity magnitude 
+% pt2_U(i) = U;
+% pt2_V(i) = V;
+% pt2_W(i) = W;
+% pt2_mag(i) = mag;
+datestr(now)
+end
+
+i=1000
+
+for i=1000:1:1024;
+s = num2str(i);
+filename3 = genvarname(['B0' s]);
+filename3 = [filename3 '.txt']
+[X,Y,U,V,W] = importPIV(filename3,2, inf);
+mag = sqrt(U.^2+V.^2+W.^2);   %%Calculate velocity magnitude 
+uvelgrid_sp(:,:,i) = griddata(X, Y, U, y, x);
+vvelgrid_sp(:,:,i) = griddata(X, Y, V, y, x); 
+wvelgrid_sp(:,:,i) = griddata(X, Y, W, y, x);                     %%Interpolate data to the grid
+magvelgrid(:,:,i) = griddata(X, Y, mag, y, x);
+% pt1_U(i) = U;
+% pt1_V(i) = V;
+% pt1_W(i) = W;
+% pt1_mag(i) = mag;
+% % [X,Y,U,V,W] = importPIV(filename,1563, 1563);
+% % mag = sqrt(U^2+V^2+W^2);   %%Calculate velocity magnitude 
+% % pt2(i) = mag;
+% [X,Y,U,V,W] = importPIV(filename,6174,6174);
+% mag = sqrt(U^2+V^2+W^2);   %%Calculate velocity magnitude 
+% pt2_U(i) = U;
+% pt2_V(i) = V;
+% pt2_W(i) = W;
+% pt2_mag(i) = mag;
+datestr(now)
+end
+
+
+figure(3);                                                  %%%Cont of magnitude
+contourf(y,x,vvelgrid_sp(:,:,2));
+% hold on 
+% h = streamslice(x,y, uvelgrid(:,:,2), -uvelgrid(:,:,2),40);
+% set(h,'Color','black','LineWidth',1.5);
+% x,-y
+% -1.727
+% set(h,'color','k')
+hold off
+% l1 = plot(line_shear_3600,xnondim,'--');
+% l2 = plot(line_jet_3600,xnondim,'-.');
+% % l3 = plot(line_shear_3600_2,xnondim,':');
+% set(l1,'Color','black','LineWidth',2);
+% set(l2,'Color','black','LineWidth',2);
+% set(l3,'Color','black','LineWidth',2);
+set(gca,'fontsize',16);
+hold off
+colormap;
+xlabel('y');
+xlim([-25 25]);
+ylim([-25.8 23]);
+ylabel('x');
+% clabel(cont_field)
+% patch(yleft/Do,(xleft)/Do,colordata);
+% patch(yright/Do,(xright)/Do,colordata);
+% patch(disky/Do,(diskx)/Do,colordata);
+axis equal
+grid on
+
