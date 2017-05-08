@@ -1,0 +1,50 @@
+strict2 = [1 5 9 10 12];
+strict42 = [2,3];
+strict10 = [7,8,13];
+fq5 = [4,5,6,7,8]
+
+%% Strict 2
+t = 1024
+uvelgrid_POD_strict2 = zeros(127,98,t);
+vvelgrid_POD_strict2 = zeros(127,98,t);
+wvelgrid_POD_strict2 = zeros(127,98,t);
+j = 1
+for i = 1:1:t
+    
+    for k = 1:1:5
+        j = strict2(k)
+        uvelgrid_POD_strict2(:,:,i) =uvelgrid_sp(:,:,j).*POD(i,j)+uvelgrid_POD_strict2(:,:,i);
+        
+        vvelgrid_POD_strict2(:,:,i) =vvelgrid_sp(:,:,j).*POD(i,j)+vvelgrid_POD_strict2(:,:,i);
+        
+        wvelgrid_POD_strict2(:,:,i) =wvelgrid_sp(:,:,j).*POD(i,j)+wvelgrid_POD_strict2(:,:,i);;
+    end
+    
+end
+
+
+for i = 1:1:1024
+    
+    uvelgrid_POD_strict2(:,:,i) = uvelgrid_POD_strict2(:,:,i) + mean_uvelgrid;
+    vvelgrid_POD_strict2(:,:,i) = vvelgrid_POD_strict2(:,:,i) + mean_vvelgrid;
+    wvelgrid_POD_strict2(:,:,i) = wvelgrid_POD_strict2(:,:,i) + mean_wvelgrid;
+end
+%%Fq 5 
+
+t = 1024
+uvelgrid_POD_fq5 = zeros(127,98,t);
+vvelgrid_POD_fq5 = zeros(127,98,t);
+wvelgrid_POD_fq5 = zeros(127,98,t);
+j = 1
+for i = 1:1:t
+    
+    for k = 1:1:5
+        j = fq5(k)
+        uvelgrid_POD_fq5(:,:,i) =uvelgrid_sp(:,:,j).*POD(i,j)+uvelgrid_POD_fq5(:,:,i);
+        
+        vvelgrid_POD_fq5(:,:,i) =vvelgrid_sp(:,:,j).*POD(i,j)+vvelgrid_POD_fq5(:,:,i);
+        
+        wvelgrid_POD_fq5(:,:,i) =wvelgrid_sp(:,:,j).*POD(i,j)+wvelgrid_POD_fq5(:,:,i);;
+    end
+    
+end
